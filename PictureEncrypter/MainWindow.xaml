@@ -1,0 +1,58 @@
+﻿<Window x:Class="PictureEncrypter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:PictureEncrypter"
+        Title="MainWindow" Height="600" Width="964"
+        DataContext="{RelativeSource Self}">
+    <Window.Resources>
+        <local:PictureEncrypterDataHandler x:Key="PEDBDataContext" />
+    </Window.Resources>
+    <Grid Width="Auto" DataContext="{StaticResource ResourceKey=PEDBDataContext}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="300*" />
+            <RowDefinition Height="22" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100*" />
+            <ColumnDefinition Width="100*" />
+            <ColumnDefinition Width="150" />
+        </Grid.ColumnDefinitions>
+        <Image Stretch="Uniform" AllowDrop="True" Source="{Binding DecryptedImage}" Grid.Row="0" Grid.Column="0" />
+        <Image Stretch="Uniform" Source="{Binding EncryptedImage}"                  Grid.Row="0" Grid.Column="1" />
+        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Width="500" HorizontalAlignment="Right">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <ComboBox Name="EncrypterCB" SelectedItem="{Binding SelectedEncryption}" ItemsSource="{Binding Encrypters}" Grid.Row="1" Grid.Column="4">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Name="Name" Text="{Binding Name}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button Content="New Key" Grid.Row="0" Grid.Column="0" Click="GenerateNewKeyClicked" />
+            <Button Content="Encrypt" Grid.Row="0" Grid.Column="1" Click="EncryptClicked" />
+            <Button Content="Load"    Grid.Row="0" Grid.Column="2" Click="LoadClicked" />
+            <Button Content="Save"    Grid.Row="0" Grid.Column="3" Click="SaveClicked" />
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="6">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Slider Grid.Row="0" Grid.Column="0" Value="{Binding Key}" Minimum="0" Maximum="1" />
+            <Label Grid.Row="1" Grid.Column="0" Content="{Binding Key}" />
+            <CheckBox Grid.Row="2" Grid.Column="0" IsChecked="{Binding UpdateOnKeyChange}" Content="Encrypt if slider changes (may cause slowdowns)" />
+        </Grid>
+    </Grid>
+</Window>
